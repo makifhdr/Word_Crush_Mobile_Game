@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MauiApp5.ViewModels"
+             x:Class="MauiApp5.Views.MainPage"
+             Title="Ana Menü">
+    
+    <ScrollView
+        VerticalOptions="Start"
+        Padding="0,30,0,20">
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="15"
+            VerticalOptions="Center" x:DataType="viewModels:MainMenuViewModel">
+
+            <Label
+                Text="WORD&#10;CRUSH"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1"
+                Padding="0,0,0,20"/>
+            
+            <Image
+                Source="temp_icon.jpeg"
+                HeightRequest="185"
+                Aspect="AspectFit" />
+            
+            <Label Text="{Binding UserName}"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   Margin="10">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeUsernameCommand}" />
+                </Label.GestureRecognizers>
+        
+            </Label>
+
+            <VerticalStackLayout
+                Spacing="30"
+                >
+                <Button
+                    x:Name="OynaBtn"
+                    Text="Yeni Oyun"
+                    Clicked="OnGameBtnClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="SkorBtn"
+                    Text="Skor Tablosu"
+                    Clicked="OnScoreBtnClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="MarketBtn"
+                    Text="Market"
+                    Clicked="OnMarketBtnClicked"
+                    HorizontalOptions="Fill" />
+            </VerticalStackLayout>
+            
+            <Label
+                Text="©2026"
+                FontSize="10"
+                VerticalOptions="End"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

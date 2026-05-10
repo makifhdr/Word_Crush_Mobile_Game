@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MauiApp5.ViewModels"
+             x:Class="MauiApp5.Views.MarketPage"
+             xmlns:models="clr-namespace:MauiApp5.Models"
+             Title="Market">
+    <Grid RowDefinitions="Auto, *" x:DataType="viewModels:MarketViewModel" RowSpacing="15" Padding="15">
+
+        <HorizontalStackLayout Grid.Row="0" HorizontalOptions="End" Spacing="5">
+            <Label Text="{Binding Gold}"
+                   FontSize="22"
+                   HorizontalOptions="Center" />
+            <Image
+                Source="gold_coin.png"
+                HeightRequest="20"
+                Aspect="AspectFit"/>
+        </HorizontalStackLayout>
+        
+        
+        <CollectionView 
+            ItemsSource="{Binding Jokers}"
+            Grid.Row="1">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Joker">
+                        <Border
+                            StrokeShape="RoundRectangle 20"
+                            Padding="10"
+                            HeightRequest="115"
+                            Margin="0,10">
+    
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MarketViewModel}}, Path=ShowJokerDetailCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+    
+                            <Grid ColumnDefinitions="Auto, Auto, *, Auto" ColumnSpacing="10">
+                                
+                                <Image Grid.Column="0"
+                                       Source="{Binding ImagePath}"
+                                       WidthRequest="50"
+                                       Aspect="AspectFit"/>
+                                       
+                                <Label Grid.Column="1"
+                                       Text="{Binding NumberOf}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                                       
+                                <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"
+                                           FontSize="20"/>
+
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Label FontSize="20"
+                                               Text="{Binding Cost}"
+                                               VerticalOptions="Center"/>
+                                        <Image Source="gold_coin.png"
+                                               HeightRequest="20"
+                                               Aspect="AspectFit"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <Button Grid.Column="3"
+                                        Text="Satın Al"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MarketViewModel}}, Path=BuyJokerCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="30"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="{StaticResource Gray900}"/>
+                            </Grid>
+                        </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

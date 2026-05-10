@@ -1,0 +1,168 @@
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Extensions;
+using MauiApp5.Models;
+using MauiApp5.Services;
+using MauiApp5.Views;
+
+namespace MauiApp5.ViewModels;
+
+public class MarketViewModel: INotifyPropertyChanged
+{
+    private readonly DataService _dataService = new();
+    private AppData _data;
+
+    public int Gold => _data?.Gold ?? 0;
+
+    public List<Joker> Jokers { get; set; } = new();
+
+    public ICommand ShowJokerDetailCommand { get; }
+    public ICommand BuyJokerCommand { get; }
+
+    public MarketViewModel()
+    {
+        ShowJokerDetailCommand = new Command<Joker>(async (joker) =>
+        {
+            if (joker == null) return;
+
+            await Shell.Current.Navigation.PushModalAsync(
+                new JokerDetailPage(joker)
+            );
+        });
+        
+        BuyJokerCommand = new Command<Joker>(async (joker) =>
+        {
+            if (joker == null) return;
+
+            int price = GetPrice(joker.JokerTipi);
+
+            if (_data.Gold < price)
+            {
+                await Shell.Current.DisplayAlertAsync("Yetersiz Altın", "Altınınız yetmiyor!", "Tamam");
+                return;
+            }
+            
+            var currentPage = Shell.Current?.CurrentPage ?? Application.Current?.MainPage;
+        
+            if (currentPage == null) 
+                return; // Sayfa bulunamazsa işlemi iptal et
+
+            // 2. Popup'ı oluştur (Kullanıcıya özel mesaj ile)
+            var popup = new OnayPopup(
+                "Satın Alma Onayı", 
+                $"{joker.Name} jokerini {price} altın karşılığında satın almak istediğinize emin misiniz?"
+            );
+
+            // 3. Popup'ı aktif sayfa üzerinden göster ve sonucu bekle
+            var result = await currentPage.ShowPopupAsync<bool>(popup, new PopupOptions()
+            {
+                CanBeDismissedByTappingOutsideOfPopup = false
+            });
+            
+            if (result.Result)
+            {
+                _data.Gold -= price;
+                _data.JokerNumbers[joker.JokerTipi]++;
+                await _dataService.SaveAsync(_data);
+            }
+            
+            CreateJokers();
+            OnPropertyChanged(nameof(Gold));
+            OnPropertyChanged(nameof(Jokers));
+        });
+    }
+    
+    private int GetPrice(JokerType type)
+    {
+        return Jokers.Find(x => x.JokerTipi == type).Cost;
+    }
+
+    public async Task LoadAsync()
+    {
+        _data = await _dataService.LoadAsync();
+
+        CreateJokers();
+
+        OnPropertyChanged(nameof(Gold));
+        OnPropertyChanged(nameof(Jokers));
+    }
+
+    private void CreateJokers()
+    {
+        Jokers = new List<Joker>
+        {
+            new Joker
+            {
+                JokerTipi = JokerType.Balik,
+                Name = "Balık",
+                Cost = 100,
+                Description = "Gridde rastgele olarak harfleri yok etmektedir. Rastgele yok olan harflerin üzerindeki harfler aşağıya düşmektedir.",
+                NumberOf = GetJokerCount(JokerType.Balik),
+                GifPath = "balikgif.gif",
+                ImagePath = "balik.png",
+            },
+            new Joker
+            {
+                JokerTipi = JokerType.Tekerlek,
+                Name = "Tekerlek",
+                Cost = 200,
+                Description = "Gridde seçilen harfin bulunduğu satır ve sütundaki tüm harfler yok olmaktadır.",
+                NumberOf = GetJokerCount(JokerType.Tekerlek),
+                GifPath = "tekerlekgif.gif",
+                ImagePath = "tekerlek.png",
+            },
+            new Joker
+            {
+                JokerTipi = JokerType.LolipopKirici,
+                Name = "Lolipop Kırıcı",
+                Cost = 75,
+                Description = "Gridde seçilen bir harfi yok etmek için kullanılmaktadır. Bu harf yok olduğunda yukarısındaki kelimeler aşağı düşmektedir.",
+                NumberOf = GetJokerCount(JokerType.LolipopKirici),
+                GifPath = "lolipopkiricigif.gif",
+                ImagePath = "lolipopkirici.png",
+            },
+            new Joker
+            {
+                JokerTipi = JokerType.SerbestDegistirme,
+                Name = "Serbest Değiştirme",
+                Cost = 125,
+                Description = "Gridde birbirine temas eden iki harfin yer değiştirilmesini sağlamaktadır.",
+                NumberOf = GetJokerCount(JokerType.SerbestDegistirme),
+                GifPath = "serbestdegistirmegif.gif",
+                ImagePath = "serbestdegistirme.png",
+            },
+            new Joker
+            {
+                JokerTipi = JokerType.HarfKaristirma,
+                Name = "Harf Karıştırma",
+                Cost = 300,
+                Description = "Bu özellik seçildiğinde gridde bulunan harflerin rastgele bir şekilde karıştırılmasını sağlamaktadır.",
+                NumberOf = GetJokerCount(JokerType.HarfKaristirma),
+                GifPath = "harfkaristirmagif.gif",
+                ImagePath = "harfkaristirma.png",
+            },
+            new Joker
+            {
+                JokerTipi = JokerType.PartiGuclendirici,
+                Name = "Parti Güçlendiricisi",
+                Cost = 400,
+                Description = "Bu özellik seçildiğinde gridde bulunan tüm harfler yok edilir ve tekrardan rastgele bir şekilde harfler yukarıdan aşağıya düşmektedir.",
+                NumberOf = GetJokerCount(JokerType.PartiGuclendirici),
+                GifPath = "partiguclendiricigif.gif",
+                ImagePath = "partiguclendirici.png",
+            }
+        };
+    }
+
+    private int GetJokerCount(JokerType type)
+    {
+        return _data?.JokerNumbers?.GetValueOrDefault(type) ?? 0;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+}

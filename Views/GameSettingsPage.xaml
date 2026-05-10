@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MauiApp5.ViewModels"
+             x:Class="MauiApp5.Views.GameSettingsPage"
+             Title="Oyun Ayarlarını Seçin">
+    
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25"
+        VerticalOptions="Center" x:DataType="viewModels:GameSettingsViewModel">
+        <Label Text="Grid Boyutu Seç" FontSize="18" />
+        
+        
+        <HorizontalStackLayout Spacing="20"
+                               HorizontalOptions="Center"
+                               RadioButtonGroup.GroupName="GridSizeGroup"
+                               RadioButtonGroup.SelectedValue="{Binding SelectedGridSize}"
+                               BindableLayout.ItemsSource="{Binding GridOptions}">
+                <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                                <RadioButton Content="{Binding StringFormat='{0}x{0}'}" 
+                                             Value="{Binding .}"
+                                             />
+                        </DataTemplate>
+                </BindableLayout.ItemTemplate>
+        </HorizontalStackLayout>
+
+        <Label Text="Hamle Sayısı Seç" FontSize="18" />
+
+        <HorizontalStackLayout Spacing="20"
+                               HorizontalOptions="Center"
+                               RadioButtonGroup.GroupName="MoveCountGroup"
+                               RadioButtonGroup.SelectedValue="{Binding SelectedMoves}"
+                               BindableLayout.ItemsSource="{Binding MoveOptions}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Content="{Binding StringFormat = '{0}'}" 
+                                 Value="{Binding .}"/>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </HorizontalStackLayout>
+
+        <Button Text="Oyunu Başlat"
+                Margin="0,20,0,0"
+                Command="{Binding StartGameCommand}" />
+    </VerticalStackLayout>
+        
+        <ContentPage.Resources>
+        <ControlTemplate x:Key="RadioButtonTemplate">
+            <Border StrokeShape="RoundRectangle 10"
+                    BackgroundColor="{StaticResource SecondaryDarkText}"
+                    Stroke="{StaticResource Transparent}"
+                    HeightRequest="90"
+                    WidthRequest="90"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                            Value="{StaticResource SecondaryDarkText}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                            Value="{StaticResource Secondary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+            </Border>
+        </ControlTemplate>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="ControlTemplate"
+                    Value="{StaticResource RadioButtonTemplate}"/>
+            <Setter Property="TextColor"
+                    Value="White"/>
+        </Style>
+    </ContentPage.Resources>
+</ContentPage>

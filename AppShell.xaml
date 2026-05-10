@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiApp5.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiApp5.Views"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="MauiApp5">
+    
+    <ShellContent
+        ContentTemplate="{DataTemplate views:MainPage}"
+        Route="MainPage" 
+    />
+    
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="Black"  StatusBarStyle="LightContent" />
+    </Shell.Behaviors>
+</Shell>

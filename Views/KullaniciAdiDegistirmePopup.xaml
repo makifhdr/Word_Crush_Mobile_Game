@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup x:TypeArguments="system:String" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:system="clr-namespace:System;assembly=System.Runtime"
+               x:Class="MauiApp5.Views.KullaniciAdiDegistirmePopup"
+               BackgroundColor="{StaticResource Gray900}">
+    <Border WidthRequest="320"
+            BackgroundColor="DarkSlateGray"
+            Stroke="White"
+            StrokeThickness="2"
+            Padding="20">
+        
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout Spacing="20">
+            <Label Text="Kullanıcı Adı"
+                   FontSize="22" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            
+            <Label Text="Yeni kullanıcı adını gir:"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+            
+            <Entry x:Name="UsernameEntry"></Entry>
+            
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <Button Text="Tamam" 
+                        WidthRequest="100"
+                        CornerRadius="10"
+                        Clicked="OnTamamClicked" 
+                        BackgroundColor="{StaticResource Gray900}"/>
+                
+                <Button Text="İptal" 
+                        WidthRequest="100"
+                        CornerRadius="10"
+                        Clicked="OnIptalClicked"
+                        BackgroundColor="{StaticResource Gray900}"/>
+                
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

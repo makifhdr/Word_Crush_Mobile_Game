@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="MauiApp5.Views.OyunSonucuPopup"
+               BackgroundColor="{StaticResource Gray900}">
+    <Border WidthRequest="300"
+            BackgroundColor="DarkSlateGray"
+            Stroke="White"
+            StrokeThickness="2"
+            Padding="20">
+        
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout Spacing="15">
+            <Label 
+                x:Name="BaslikLbl"
+                FontSize="24" 
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            
+            <Label x:Name="MesajLbl"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+            
+            <Button Text="Tamam"
+                    Clicked="OnTamamClicked"
+                    BackgroundColor="{StaticResource Gray900}"/>
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

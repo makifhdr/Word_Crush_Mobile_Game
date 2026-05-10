@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MauiApp5.Models"
+             xmlns:viewModels="clr-namespace:MauiApp5.ViewModels"
+             x:Class="MauiApp5.Views.ScorePage"
+             Title="Skorlar">
+    <ScrollView>
+        <VerticalStackLayout
+            x:Name="MainLayout"
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
+            <Label
+                Text="GENEL PERFORMANS"
+                FontSize="30"
+                FontAttributes = "Bold"
+                Padding="0,20,0,0"/>
+            <Border x:DataType="viewModels:ScoreViewModel" 
+                    Margin="5" 
+                    Padding="10" 
+                    StrokeShape="RoundRectangle 20">
+                <VerticalStackLayout>
+                    <Label Text="Toplam Oyun Sayısı" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding OyunSayisi}" FontSize="18"/>
+            
+                    <Label Text="En Yüksek Puan" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding BestScore}" FontSize="18"/>
+
+                    <Label Text="Ortalama Puan" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding AverageScore}" FontSize="18"/>
+            
+                    <Label Text="Toplam Bulunan Kelime Sayısı" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding ToplamKelime}" FontSize="18"/>
+            
+                    <Label Text="Bulunan En Uzun Kelime" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding EnUzunKelime}" FontSize="18"/>
+            
+                    <Label Text="Toplam Süre" FontAttributes = "Bold" FontSize="20"/>
+                    <Label Text="{Binding ToplamSure}" FontSize="18"/>
+                </VerticalStackLayout>
+            </Border>
+            
+            <Label
+                Text="GEÇMİŞ OYUNLAR"
+                FontSize="30"
+                FontAttributes = "Bold"/>
+            <CollectionView ItemsSource="{Binding GameHistory}" x:DataType="viewModels:ScoreViewModel">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            Margin="5" 
+                            Padding="10" 
+                            StrokeShape="RoundRectangle 20">
+                            <VerticalStackLayout x:DataType="models:GameResult">
+                                <HorizontalStackLayout>
+                                    
+                                    <Label Text="Oyun " FontSize="25" FontAttributes = "Bold"/>
+                                    <Label Text="{Binding Id}" FontSize="25" FontAttributes = "Bold"/>
+                                    
+                                </HorizontalStackLayout>
+                                
+                                <Label Text="Grid Boyutu" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="{Binding GridSizeString}" FontSize="18"/>
+                                
+                                <Label Text="Toplam Puan" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="{Binding Score}" FontSize="18"/>
+                                
+                                <Label Text="Bulunan Kelime Sayısı" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="{Binding WordCount}" FontSize="18"/>
+                                
+                                <Label Text="Bulunan En Uzun Kelime" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="{Binding LongestWordString}" FontSize="18"/>
+                                
+                                <Label Text="Oyun Süresi" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="{Binding SureString}" FontSize="18"/>
+                                    
+                                <Label Text="{Binding Date, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" FontSize="12"/>
+                                
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
