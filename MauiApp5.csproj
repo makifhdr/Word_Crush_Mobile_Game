@@ -19,6 +19,7 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <TrimMode>partial</TrimMode>
 
         <!-- Display name -->
         <ApplicationTitle>Word Crush</ApplicationTitle>

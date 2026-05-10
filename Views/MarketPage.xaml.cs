@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using MauiApp5.ViewModels;
 
 namespace MauiApp5.Views;
@@ -21,9 +16,9 @@ public partial class MarketPage
 
     protected override async void OnAppearing()
     {
+        base.OnAppearing();
         try
         {
-            base.OnAppearing();
             await _vm.LoadAsync();
         }
         catch (Exception e)

@@ -13,71 +13,86 @@ namespace MauiApp5.ViewModels;
 public class MarketViewModel: INotifyPropertyChanged
 {
     private readonly DataService _dataService = new();
-    private AppData _data;
+    private AppData _data = new();
 
-    public int Gold => _data?.Gold ?? 0;
+    public int Gold => _data.Gold;
 
-    public List<Joker> Jokers { get; set; } = new();
+    public List<Joker> Jokers { get; set; } = [];
 
     public ICommand ShowJokerDetailCommand { get; }
     public ICommand BuyJokerCommand { get; }
 
     public MarketViewModel()
     {
-        ShowJokerDetailCommand = new Command<Joker>(async (joker) =>
+        ShowJokerDetailCommand = new Command<Joker>(async void (joker) =>
         {
-            if (joker == null) return;
+            try
+            {
+                if (joker == null) return;
 
-            await Shell.Current.Navigation.PushModalAsync(
-                new JokerDetailPage(joker)
-            );
+                await Shell.Current.Navigation.PushModalAsync(
+                    new JokerDetailPage(joker)
+                );
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         });
         
-        BuyJokerCommand = new Command<Joker>(async (joker) =>
+        BuyJokerCommand = new Command<Joker>(async void (joker) =>
         {
-            if (joker == null) return;
-
-            int price = GetPrice(joker.JokerTipi);
-
-            if (_data.Gold < price)
+            try
             {
-                await Shell.Current.DisplayAlertAsync("Yetersiz Altın", "Altınınız yetmiyor!", "Tamam");
-                return;
-            }
-            
-            var currentPage = Shell.Current?.CurrentPage ?? Application.Current?.MainPage;
+                var currentPage = Shell.Current?.CurrentPage;
         
-            if (currentPage == null) 
-                return;
+                if (currentPage == null) 
+                    return;
+            
+                if (joker == null) return;
+
+                int price = GetPrice(joker.JokerTipi);
+
+                if (_data.Gold < price)
+                {
+                    var uyariPopup = new UyariPopup("Yetersiz Altın", "Altınınız yetmiyor!");
+                    await currentPage.ShowPopupAsync(uyariPopup);
+                    return;
+                }
 
             
-            var popup = new OnayPopup(
-                "Satın Alma Onayı", 
-                $"{joker.Name} jokerini {price} altın karşılığında satın almak istediğinize emin misiniz?"
-            );
+                var popup = new OnayPopup(
+                    "Satın Alma Onayı", 
+                    $"{joker.Name} jokerini {price} altın karşılığında satın almak istediğinize emin misiniz?"
+                );
 
             
-            var result = await currentPage.ShowPopupAsync<bool>(popup, new PopupOptions()
-            {
-                CanBeDismissedByTappingOutsideOfPopup = false
-            });
+                var result = await currentPage.ShowPopupAsync<bool>(popup, new PopupOptions()
+                {
+                    CanBeDismissedByTappingOutsideOfPopup = false
+                });
             
-            if (result.Result)
-            {
-                _data.Gold -= price;
-                _data.JokerNumbers[joker.JokerTipi]++;
-                await _dataService.SaveAsync(_data);
+                if (result.Result)
+                {
+                    _data.Gold -= price;
+                    _data.JokerNumbers[joker.JokerTipi]++;
+                    await _dataService.SaveAsync(_data);
+                }
+            
+                CreateJokers();
+                OnPropertyChanged(nameof(Gold));
+                OnPropertyChanged(nameof(Jokers));
             }
-            
-            CreateJokers();
-            OnPropertyChanged(nameof(Gold));
-            OnPropertyChanged(nameof(Jokers));
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         });
     }
     
     private int GetPrice(JokerType type)
     {
-        return Jokers.Find(x => x.JokerTipi == type).Cost;
+        return Jokers.Find(x => x.JokerTipi == type)!.Cost;
     }
 
     public async Task LoadAsync()
@@ -92,18 +107,20 @@ public class MarketViewModel: INotifyPropertyChanged
 
     private void CreateJokers()
     {
-        Jokers = new List<Joker>
-        {
+        Jokers =
+        [
             new Joker
             {
                 JokerTipi = JokerType.Balik,
                 Name = "Balık",
                 Cost = 100,
-                Description = "Gridde rastgele olarak harfleri yok etmektedir. Rastgele yok olan harflerin üzerindeki harfler aşağıya düşmektedir.",
+                Description =
+                    "Gridde rastgele olarak harfleri yok etmektedir. Rastgele yok olan harflerin üzerindeki harfler aşağıya düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.Balik),
                 GifPath = "balikgif.gif",
                 ImagePath = "balik.png",
             },
+
             new Joker
             {
                 JokerTipi = JokerType.Tekerlek,
@@ -114,16 +131,19 @@ public class MarketViewModel: INotifyPropertyChanged
                 GifPath = "tekerlekgif.gif",
                 ImagePath = "tekerlek.png",
             },
+
             new Joker
             {
                 JokerTipi = JokerType.LolipopKirici,
                 Name = "Lolipop Kırıcı",
                 Cost = 75,
-                Description = "Gridde seçilen bir harfi yok etmek için kullanılmaktadır. Bu harf yok olduğunda yukarısındaki kelimeler aşağı düşmektedir.",
+                Description =
+                    "Gridde seçilen bir harfi yok etmek için kullanılmaktadır. Bu harf yok olduğunda yukarısındaki kelimeler aşağı düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.LolipopKirici),
                 GifPath = "lolipopkiricigif.gif",
                 ImagePath = "lolipopkirici.png",
             },
+
             new Joker
             {
                 JokerTipi = JokerType.SerbestDegistirme,
@@ -134,35 +154,39 @@ public class MarketViewModel: INotifyPropertyChanged
                 GifPath = "serbestdegistirmegif.gif",
                 ImagePath = "serbestdegistirme.png",
             },
+
             new Joker
             {
                 JokerTipi = JokerType.HarfKaristirma,
                 Name = "Harf Karıştırma",
                 Cost = 300,
-                Description = "Bu özellik seçildiğinde gridde bulunan harflerin rastgele bir şekilde karıştırılmasını sağlamaktadır.",
+                Description =
+                    "Bu özellik seçildiğinde gridde bulunan harflerin rastgele bir şekilde karıştırılmasını sağlamaktadır.",
                 NumberOf = GetJokerCount(JokerType.HarfKaristirma),
                 GifPath = "harfkaristirmagif.gif",
                 ImagePath = "harfkaristirma.png",
             },
+
             new Joker
             {
                 JokerTipi = JokerType.PartiGuclendirici,
                 Name = "Parti Güçlendiricisi",
                 Cost = 400,
-                Description = "Bu özellik seçildiğinde gridde bulunan tüm harfler yok edilir ve tekrardan rastgele bir şekilde harfler yukarıdan aşağıya düşmektedir.",
+                Description =
+                    "Bu özellik seçildiğinde gridde bulunan tüm harfler yok edilir ve tekrardan rastgele bir şekilde harfler yukarıdan aşağıya düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.PartiGuclendirici),
                 GifPath = "partiguclendiricigif.gif",
                 ImagePath = "partiguclendirici.png",
             }
-        };
+        ];
     }
 
     private int GetJokerCount(JokerType type)
     {
-        return _data?.JokerNumbers?.GetValueOrDefault(type) ?? 0;
+        return _data.JokerNumbers.GetValueOrDefault(type);
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string name = null)
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string name = null!)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

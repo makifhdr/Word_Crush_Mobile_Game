@@ -7,9 +7,9 @@ using CommunityToolkit.Maui.Views;
 
 namespace MauiApp5.Views;
 
-public partial class OyunSonucuPopup : Popup
+public partial class UyariPopup : Popup
 {
-    public OyunSonucuPopup(string baslik, string mesaj)
+    public UyariPopup(string baslik, string mesaj)
     {
         InitializeComponent();
 

@@ -19,10 +19,10 @@
                                RadioButtonGroup.SelectedValue="{Binding SelectedGridSize}"
                                BindableLayout.ItemsSource="{Binding GridOptions}">
                 <BindableLayout.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="x:Int32">
                                 <RadioButton Content="{Binding StringFormat='{0}x{0}'}" 
                                              Value="{Binding .}"
-                                             />
+                                             FontFamily="DefaultFont"/>
                         </DataTemplate>
                 </BindableLayout.ItemTemplate>
         </HorizontalStackLayout>
@@ -35,9 +35,10 @@
                                RadioButtonGroup.SelectedValue="{Binding SelectedMoves}"
                                BindableLayout.ItemsSource="{Binding MoveOptions}">
             <BindableLayout.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="x:Int32">
                     <RadioButton Content="{Binding StringFormat = '{0}'}" 
-                                 Value="{Binding .}"/>
+                                 Value="{Binding .}"
+                                 FontFamily="DefaultFont"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </HorizontalStackLayout>

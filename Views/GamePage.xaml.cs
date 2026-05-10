@@ -280,7 +280,7 @@ public partial class GamePage
     {
         try
         {
-            var popup = new OyunSonucuPopup("Oyun Bitti", "Hamle kalmadı");
+            var popup = new UyariPopup("Oyun Bitti", "Hamle kalmadı");
             await this.ShowPopupAsync(popup);
             var gameResult = await OyunSonucuAl();
             
@@ -306,7 +306,7 @@ public partial class GamePage
 
             var baslikString = "Oyun Bitti!";
             
-            var popup = new OyunSonucuPopup(baslikString, oyunSonucuString);
+            var popup = new UyariPopup(baslikString, oyunSonucuString);
             await this.ShowPopupAsync(popup, new PopupOptions()
             {
                 CanBeDismissedByTappingOutsideOfPopup = false
