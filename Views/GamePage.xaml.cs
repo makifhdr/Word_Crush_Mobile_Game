@@ -317,8 +317,6 @@ public partial class GamePage
         }
     }
     
-    //Oyun ayarları sayfasını düzenle ve bitir
-    
     public async Task<bool> ConfirmExitAsync()
     {
         try

@@ -48,15 +48,15 @@ public class MarketViewModel: INotifyPropertyChanged
             var currentPage = Shell.Current?.CurrentPage ?? Application.Current?.MainPage;
         
             if (currentPage == null) 
-                return; // Sayfa bulunamazsa işlemi iptal et
+                return;
 
-            // 2. Popup'ı oluştur (Kullanıcıya özel mesaj ile)
+            
             var popup = new OnayPopup(
                 "Satın Alma Onayı", 
                 $"{joker.Name} jokerini {price} altın karşılığında satın almak istediğinize emin misiniz?"
             );
 
-            // 3. Popup'ı aktif sayfa üzerinden göster ve sonucu bekle
+            
             var result = await currentPage.ShowPopupAsync<bool>(popup, new PopupOptions()
             {
                 CanBeDismissedByTappingOutsideOfPopup = false

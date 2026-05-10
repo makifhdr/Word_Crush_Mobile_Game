@@ -32,7 +32,6 @@
             HorizontalOptions="Center"
             FontSize="20"
             Text="{Binding MovesLeft}"/>
-        
         <skia:SKCanvasView 
             x:Name="GameCanvas"
             HeightRequest="400"
