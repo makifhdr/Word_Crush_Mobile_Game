@@ -62,7 +62,7 @@
                                     
                                 </HorizontalStackLayout>
                                 
-                                <Label Text="Grid Boyutu" FontSize="18" FontAttributes = "Bold"/>
+                                <Label Text="Tahta Boyutu" FontSize="18" FontAttributes = "Bold"/>
                                 <Label Text="{Binding GridSizeString}" FontSize="18"/>
                                 
                                 <Label Text="Toplam Puan" FontSize="18" FontAttributes = "Bold"/>

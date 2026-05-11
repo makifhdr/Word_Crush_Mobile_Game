@@ -14,7 +14,7 @@ public partial class UyariPopup : Popup
         InitializeComponent();
 
         BaslikLbl.Text = baslik;
-        MesajLbl.Text = mesaj; 
+        MesajLbl.Text = mesaj;
     }
 
     private void OnTamamClicked(object sender, EventArgs e)

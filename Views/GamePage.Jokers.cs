@@ -187,7 +187,7 @@ public partial class GamePage
     {
         var random = new Random();
 
-        int destroyCount = 10;
+        int destroyCount = random.Next(3,10);
 
         var harfler = "";
 

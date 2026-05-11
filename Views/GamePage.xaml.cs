@@ -271,9 +271,15 @@ public partial class GamePage
         };
         _data.GameHistory.Add(gameResult);
         _data.NextGameId++;
+        _data.Gold += KazanilanAltinHesapla();
         await _dataService.SaveAsync(_data);
         
         return gameResult;
+    }
+
+    private int KazanilanAltinHesapla()
+    {
+        return _score / 5;
     }
 
     private async void OyunuBitir()
@@ -297,17 +303,19 @@ public partial class GamePage
     {
         try
         {
-            var enUzunKelime = gameResult.LongestWord.Equals(string.Empty) ? "\"Kelime Bulunamadı\"" : gameResult.LongestWord;
+            var enUzunKelime = gameResult
+                .LongestWord
+                .Equals(string.Empty) 
+                ? "\"Kelime Bulunamadı\"" 
+                : gameResult.LongestWord;
             
-            var oyunSonucuString = $"Skor: {gameResult.Score}\n" +
-                                   $"Süre: {gameResult.SureString}\n" +
-                                   $"Bulunan kelime: {gameResult.WordCount}\n" +
-                                   $"Bulunan en uzun kelime: {enUzunKelime}";
-
-            var baslikString = "Oyun Bitti!";
-            
-            var popup = new UyariPopup(baslikString, oyunSonucuString);
-            await this.ShowPopupAsync(popup, new PopupOptions()
+            var popup = new OyunSonucuPopup(
+                gameResult.Score, 
+                gameResult.SureString,
+                gameResult.WordCount, 
+                enUzunKelime, 
+                KazanilanAltinHesapla());
+            await this.ShowPopupAsync(popup, new PopupOptions
             {
                 CanBeDismissedByTappingOutsideOfPopup = false
             });

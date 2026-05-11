@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MauiApp5.Models;
+﻿using MauiApp5.Models;
 using MauiApp5.Services;
 
 namespace MauiApp5.Views;
@@ -31,7 +26,7 @@ public partial class LoginPage : ContentPage
         var data = new AppData
         {
             UserName = username,
-            Gold = 999999,
+            Gold = 0,
             GameHistory = [],
             JokerNumbers = new Dictionary<JokerType, int>
             {

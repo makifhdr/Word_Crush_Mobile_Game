@@ -113,9 +113,9 @@ public class MarketViewModel: INotifyPropertyChanged
             {
                 JokerTipi = JokerType.Balik,
                 Name = "Balık",
-                Cost = 100,
+                Cost = 150,
                 Description =
-                    "Gridde rastgele olarak harfleri yok etmektedir. Rastgele yok olan harflerin üzerindeki harfler aşağıya düşmektedir.",
+                    "Tahtada rastgele olarak harfleri yok etmektedir. Rastgele yok olan harflerin üzerindeki harfler aşağıya düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.Balik),
                 GifPath = "balikgif.gif",
                 ImagePath = "balik.png",
@@ -125,8 +125,8 @@ public class MarketViewModel: INotifyPropertyChanged
             {
                 JokerTipi = JokerType.Tekerlek,
                 Name = "Tekerlek",
-                Cost = 200,
-                Description = "Gridde seçilen harfin bulunduğu satır ve sütundaki tüm harfler yok olmaktadır.",
+                Cost = 300,
+                Description = "Tahtada seçilen harfin bulunduğu satır ve sütundaki tüm harfler yok olmaktadır.",
                 NumberOf = GetJokerCount(JokerType.Tekerlek),
                 GifPath = "tekerlekgif.gif",
                 ImagePath = "tekerlek.png",
@@ -138,7 +138,7 @@ public class MarketViewModel: INotifyPropertyChanged
                 Name = "Lolipop Kırıcı",
                 Cost = 75,
                 Description =
-                    "Gridde seçilen bir harfi yok etmek için kullanılmaktadır. Bu harf yok olduğunda yukarısındaki kelimeler aşağı düşmektedir.",
+                    "Tahtada seçilen bir harfi yok etmek için kullanılmaktadır. Bu harf yok olduğunda yukarısındaki kelimeler aşağı düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.LolipopKirici),
                 GifPath = "lolipopkiricigif.gif",
                 ImagePath = "lolipopkirici.png",
@@ -148,8 +148,8 @@ public class MarketViewModel: INotifyPropertyChanged
             {
                 JokerTipi = JokerType.SerbestDegistirme,
                 Name = "Serbest Değiştirme",
-                Cost = 125,
-                Description = "Gridde birbirine temas eden iki harfin yer değiştirilmesini sağlamaktadır.",
+                Cost = 50,
+                Description = "Tahtada birbirine temas eden iki harfin yer değiştirilmesini sağlamaktadır.",
                 NumberOf = GetJokerCount(JokerType.SerbestDegistirme),
                 GifPath = "serbestdegistirmegif.gif",
                 ImagePath = "serbestdegistirme.png",
@@ -159,9 +159,9 @@ public class MarketViewModel: INotifyPropertyChanged
             {
                 JokerTipi = JokerType.HarfKaristirma,
                 Name = "Harf Karıştırma",
-                Cost = 300,
+                Cost = 125,
                 Description =
-                    "Bu özellik seçildiğinde gridde bulunan harflerin rastgele bir şekilde karıştırılmasını sağlamaktadır.",
+                    "Bu özellik seçildiğinde tahtada bulunan harflerin rastgele bir şekilde karıştırılmasını sağlamaktadır.",
                 NumberOf = GetJokerCount(JokerType.HarfKaristirma),
                 GifPath = "harfkaristirmagif.gif",
                 ImagePath = "harfkaristirma.png",
@@ -171,9 +171,9 @@ public class MarketViewModel: INotifyPropertyChanged
             {
                 JokerTipi = JokerType.PartiGuclendirici,
                 Name = "Parti Güçlendiricisi",
-                Cost = 400,
+                Cost = 500,
                 Description =
-                    "Bu özellik seçildiğinde gridde bulunan tüm harfler yok edilir ve tekrardan rastgele bir şekilde harfler yukarıdan aşağıya düşmektedir.",
+                    "Bu özellik seçildiğinde tahtada bulunan tüm harfler yok edilir ve tekrardan rastgele bir şekilde harfler yukarıdan aşağıya düşmektedir.",
                 NumberOf = GetJokerCount(JokerType.PartiGuclendirici),
                 GifPath = "partiguclendiricigif.gif",
                 ImagePath = "partiguclendirici.png",
